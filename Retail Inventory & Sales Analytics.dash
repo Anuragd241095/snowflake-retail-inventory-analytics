@@ -1,0 +1,1472 @@
+{
+  "spec_version": 2,
+  "spec_revision": 18,
+  "version": 2,
+  "title": "Retail Inventory & Sales Analytics",
+  "tabs": [
+    {
+      "tab_id": "tab-0",
+      "title": "",
+      "tiles": [
+        {
+          "tile_id": "chart-f71ef1db43a4",
+          "title": "Monthly Sales",
+          "type": "chart",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {
+              "name": "values"
+            },
+            "title": "",
+            "usermeta": {
+              "snowflake": {
+                "chartConfig": {
+                  "dataLabels": {
+                    "enabled": true
+                  },
+                  "format": {
+                    "abbreviateNumbers": true
+                  },
+                  "dataPoints": {
+                    "enabled": true
+                  }
+                },
+                "chartType": "line"
+              }
+            },
+            "layer": [
+              {
+                "mark": {
+                  "type": "line",
+                  "invalid": null,
+                  "point": true
+                },
+                "encoding": {
+                  "x": {
+                    "scale": {
+                      "type": "utc"
+                    },
+                    "field": "SALES_MONTH",
+                    "type": "temporal",
+                    "sort": "ascending"
+                  },
+                  "y": {
+                    "field": "MONTHLY_SALES",
+                    "type": "quantitative",
+                    "aggregate": "sum",
+                    "axis": {
+                      "labelExpr": "abs(datum.value) >= 1000 ? format(datum.value, '.3~s') : format(datum.value, '')"
+                    }
+                  },
+                  "tooltip": [
+                    {
+                      "field": "SALES_MONTH"
+                    },
+                    {
+                      "field": "MONTHLY_SALES",
+                      "aggregate": "sum"
+                    }
+                  ]
+                }
+              },
+              {
+                "mark": {
+                  "type": "text",
+                  "dy": -8,
+                  "clip": false
+                },
+                "encoding": {
+                  "x": {
+                    "scale": {
+                      "type": "utc"
+                    },
+                    "field": "SALES_MONTH",
+                    "type": "temporal",
+                    "sort": "ascending"
+                  },
+                  "y": {
+                    "field": "MONTHLY_SALES",
+                    "type": "quantitative",
+                    "aggregate": "sum",
+                    "axis": {
+                      "labelExpr": "abs(datum.value) >= 1000 ? format(datum.value, '.3~s') : format(datum.value, '')"
+                    }
+                  },
+                  "text": {
+                    "field": "MONTHLY_SALES",
+                    "aggregate": "sum",
+                    "format": ".3~s"
+                  }
+                }
+              }
+            ]
+          },
+          "datasources": [
+            "ds-chart-f71ef1db43a4"
+          ]
+        },
+        {
+          "tile_id": "chart-544f026ba64c",
+          "title": "Top 10 Selling Products",
+          "type": "chart",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {
+              "name": "values"
+            },
+            "title": "",
+            "usermeta": {
+              "snowflake": {
+                "chartConfig": {
+                  "dataLabels": {
+                    "enabled": true
+                  },
+                  "format": {
+                    "abbreviateNumbers": true
+                  }
+                },
+                "chartType": "stacked-bar"
+              }
+            },
+            "layer": [
+              {
+                "mark": {
+                  "type": "bar",
+                  "invalid": null
+                },
+                "encoding": {
+                  "x": {
+                    "field": "PRODUCT_ID",
+                    "type": "ordinal",
+                    "sort": {
+                      "encoding": "y",
+                      "order": "ascending"
+                    }
+                  },
+                  "y": {
+                    "field": "TOTAL_UNITS_SOLD",
+                    "type": "quantitative",
+                    "aggregate": "sum",
+                    "axis": {
+                      "labelExpr": "abs(datum.value) >= 1000 ? format(datum.value, '.3~s') : format(datum.value, '')"
+                    }
+                  },
+                  "tooltip": [
+                    {
+                      "field": "PRODUCT_ID"
+                    },
+                    {
+                      "field": "TOTAL_UNITS_SOLD",
+                      "aggregate": "sum"
+                    }
+                  ]
+                }
+              },
+              {
+                "mark": {
+                  "type": "text",
+                  "dy": -8,
+                  "clip": false
+                },
+                "encoding": {
+                  "x": {
+                    "field": "PRODUCT_ID",
+                    "type": "ordinal",
+                    "sort": {
+                      "encoding": "y",
+                      "order": "ascending"
+                    }
+                  },
+                  "y": {
+                    "field": "TOTAL_UNITS_SOLD",
+                    "type": "quantitative",
+                    "aggregate": "sum",
+                    "stack": false
+                  },
+                  "text": {
+                    "field": "TOTAL_UNITS_SOLD",
+                    "aggregate": "sum",
+                    "format": ".3~s"
+                  }
+                }
+              }
+            ]
+          },
+          "datasources": [
+            "ds-chart-544f026ba64c"
+          ]
+        },
+        {
+          "tile_id": "chart-877adfdc20fd",
+          "title": "Inventory Stock Status Distribution",
+          "type": "chart",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {
+              "name": "values"
+            },
+            "title": "",
+            "usermeta": {
+              "snowflake": {
+                "chartConfig": {
+                  "dataLabels": {
+                    "enabled": true
+                  },
+                  "format": {
+                    "abbreviateNumbers": true
+                  },
+                  "centerTotal": {
+                    "enabled": false
+                  },
+                  "innerRadius": 40
+                },
+                "chartType": "arc"
+              }
+            },
+            "layer": [
+              {
+                "mark": {
+                  "type": "arc",
+                  "innerRadius": {
+                    "expr": "min(width, height) / 2 * 0.4"
+                  }
+                },
+                "encoding": {
+                  "color": {
+                    "field": "STOCK_STATUS",
+                    "type": "nominal",
+                    "scale": {
+                      "scheme": "category10"
+                    }
+                  },
+                  "theta": {
+                    "field": "TOTAL_PRODUCTS",
+                    "type": "quantitative",
+                    "aggregate": "sum"
+                  },
+                  "tooltip": [
+                    {
+                      "field": "STOCK_STATUS"
+                    },
+                    {
+                      "field": "TOTAL_PRODUCTS",
+                      "aggregate": "sum"
+                    }
+                  ]
+                },
+                "transform": [
+                  {
+                    "joinaggregate": [
+                      {
+                        "op": "sum",
+                        "as": "__pieCategoryTotal",
+                        "field": "TOTAL_PRODUCTS"
+                      }
+                    ],
+                    "groupby": [
+                      "STOCK_STATUS"
+                    ]
+                  },
+                  {
+                    "window": [
+                      {
+                        "op": "dense_rank",
+                        "as": "__pieCategoryRank"
+                      }
+                    ],
+                    "sort": [
+                      {
+                        "field": "__pieCategoryTotal",
+                        "order": "descending"
+                      },
+                      {
+                        "field": "STOCK_STATUS",
+                        "order": "ascending"
+                      }
+                    ]
+                  },
+                  {
+                    "calculate": "datum.__pieCategoryRank <= 20 ? datum[\"STOCK_STATUS\"] : \"Other\"",
+                    "as": "STOCK_STATUS"
+                  }
+                ]
+              },
+              {
+                "mark": {
+                  "type": "rule",
+                  "clip": false
+                },
+                "encoding": {
+                  "opacity": {
+                    "condition": {
+                      "test": "datum[\"__percent\"] < 0.01",
+                      "value": 0
+                    },
+                    "value": 1
+                  },
+                  "x": {
+                    "field": "__pieLabelX1",
+                    "type": "quantitative",
+                    "scale": null
+                  },
+                  "y": {
+                    "field": "__pieLabelY1",
+                    "type": "quantitative",
+                    "scale": null
+                  },
+                  "x2": {
+                    "field": "__pieLabelRuleX2"
+                  },
+                  "y2": {
+                    "field": "__pieLabelRuleY2"
+                  }
+                },
+                "transform": [
+                  {
+                    "joinaggregate": [
+                      {
+                        "op": "sum",
+                        "as": "__pieCategoryTotal",
+                        "field": "TOTAL_PRODUCTS"
+                      }
+                    ],
+                    "groupby": [
+                      "STOCK_STATUS"
+                    ]
+                  },
+                  {
+                    "window": [
+                      {
+                        "op": "dense_rank",
+                        "as": "__pieCategoryRank"
+                      }
+                    ],
+                    "sort": [
+                      {
+                        "field": "__pieCategoryTotal",
+                        "order": "descending"
+                      },
+                      {
+                        "field": "STOCK_STATUS",
+                        "order": "ascending"
+                      }
+                    ]
+                  },
+                  {
+                    "calculate": "datum.__pieCategoryRank <= 20 ? datum[\"STOCK_STATUS\"] : \"Other\"",
+                    "as": "STOCK_STATUS"
+                  },
+                  {
+                    "aggregate": [
+                      {
+                        "op": "sum",
+                        "field": "TOTAL_PRODUCTS",
+                        "as": "__pieLabelValue"
+                      }
+                    ],
+                    "groupby": [
+                      "STOCK_STATUS"
+                    ]
+                  },
+                  {
+                    "stack": "__pieLabelValue",
+                    "groupby": [],
+                    "as": [
+                      "__pieLabelStart",
+                      "__pieLabelEnd"
+                    ],
+                    "sort": [
+                      {
+                        "field": "STOCK_STATUS",
+                        "order": "ascending"
+                      }
+                    ]
+                  },
+                  {
+                    "joinaggregate": [
+                      {
+                        "op": "sum",
+                        "field": "__pieLabelValue",
+                        "as": "__pieLabelTotal"
+                      }
+                    ]
+                  },
+                  {
+                    "calculate": "datum[\"__pieLabelValue\"] / datum[\"__pieLabelTotal\"]",
+                    "as": "__percent"
+                  },
+                  {
+                    "calculate": "(datum[\"__pieLabelStart\"] + datum[\"__pieLabelEnd\"]) / 2 / datum[\"__pieLabelTotal\"] * 2 * PI",
+                    "as": "__pieLabelMidAngle"
+                  },
+                  {
+                    "calculate": "min(width, height) / 2",
+                    "as": "__pieLabelBaseRadius"
+                  },
+                  {
+                    "calculate": "width / 2 + datum[\"__pieLabelBaseRadius\"] * 1 * sin(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelX1"
+                  },
+                  {
+                    "calculate": "height / 2 - datum[\"__pieLabelBaseRadius\"] * 1 * cos(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelY1"
+                  },
+                  {
+                    "calculate": "width / 2 + datum[\"__pieLabelBaseRadius\"] * 1.18 * sin(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelX2"
+                  },
+                  {
+                    "calculate": "height / 2 - datum[\"__pieLabelBaseRadius\"] * 1.18 * cos(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelY2"
+                  },
+                  {
+                    "calculate": "width / 2 + datum[\"__pieLabelBaseRadius\"] * 1.0899999999999999 * sin(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelRuleX2"
+                  },
+                  {
+                    "calculate": "height / 2 - datum[\"__pieLabelBaseRadius\"] * 1.0899999999999999 * cos(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelRuleY2"
+                  }
+                ]
+              },
+              {
+                "mark": {
+                  "type": "text",
+                  "align": "center",
+                  "baseline": "middle",
+                  "clip": false
+                },
+                "encoding": {
+                  "x": {
+                    "field": "__pieLabelX2",
+                    "type": "quantitative",
+                    "scale": null
+                  },
+                  "y": {
+                    "field": "__pieLabelY2",
+                    "type": "quantitative",
+                    "scale": null
+                  },
+                  "text": {
+                    "condition": {
+                      "test": "datum[\"__percent\"] < 0.01",
+                      "value": ""
+                    },
+                    "field": "__pieLabelValue",
+                    "type": "quantitative",
+                    "format": ".3~s"
+                  }
+                },
+                "transform": [
+                  {
+                    "joinaggregate": [
+                      {
+                        "op": "sum",
+                        "as": "__pieCategoryTotal",
+                        "field": "TOTAL_PRODUCTS"
+                      }
+                    ],
+                    "groupby": [
+                      "STOCK_STATUS"
+                    ]
+                  },
+                  {
+                    "window": [
+                      {
+                        "op": "dense_rank",
+                        "as": "__pieCategoryRank"
+                      }
+                    ],
+                    "sort": [
+                      {
+                        "field": "__pieCategoryTotal",
+                        "order": "descending"
+                      },
+                      {
+                        "field": "STOCK_STATUS",
+                        "order": "ascending"
+                      }
+                    ]
+                  },
+                  {
+                    "calculate": "datum.__pieCategoryRank <= 20 ? datum[\"STOCK_STATUS\"] : \"Other\"",
+                    "as": "STOCK_STATUS"
+                  },
+                  {
+                    "aggregate": [
+                      {
+                        "op": "sum",
+                        "field": "TOTAL_PRODUCTS",
+                        "as": "__pieLabelValue"
+                      }
+                    ],
+                    "groupby": [
+                      "STOCK_STATUS"
+                    ]
+                  },
+                  {
+                    "stack": "__pieLabelValue",
+                    "groupby": [],
+                    "as": [
+                      "__pieLabelStart",
+                      "__pieLabelEnd"
+                    ],
+                    "sort": [
+                      {
+                        "field": "STOCK_STATUS",
+                        "order": "ascending"
+                      }
+                    ]
+                  },
+                  {
+                    "joinaggregate": [
+                      {
+                        "op": "sum",
+                        "field": "__pieLabelValue",
+                        "as": "__pieLabelTotal"
+                      }
+                    ]
+                  },
+                  {
+                    "calculate": "datum[\"__pieLabelValue\"] / datum[\"__pieLabelTotal\"]",
+                    "as": "__percent"
+                  },
+                  {
+                    "calculate": "(datum[\"__pieLabelStart\"] + datum[\"__pieLabelEnd\"]) / 2 / datum[\"__pieLabelTotal\"] * 2 * PI",
+                    "as": "__pieLabelMidAngle"
+                  },
+                  {
+                    "calculate": "min(width, height) / 2",
+                    "as": "__pieLabelBaseRadius"
+                  },
+                  {
+                    "calculate": "width / 2 + datum[\"__pieLabelBaseRadius\"] * 1 * sin(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelX1"
+                  },
+                  {
+                    "calculate": "height / 2 - datum[\"__pieLabelBaseRadius\"] * 1 * cos(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelY1"
+                  },
+                  {
+                    "calculate": "width / 2 + datum[\"__pieLabelBaseRadius\"] * 1.18 * sin(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelX2"
+                  },
+                  {
+                    "calculate": "height / 2 - datum[\"__pieLabelBaseRadius\"] * 1.18 * cos(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelY2"
+                  },
+                  {
+                    "calculate": "width / 2 + datum[\"__pieLabelBaseRadius\"] * 1.0899999999999999 * sin(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelRuleX2"
+                  },
+                  {
+                    "calculate": "height / 2 - datum[\"__pieLabelBaseRadius\"] * 1.0899999999999999 * cos(datum[\"__pieLabelMidAngle\"])",
+                    "as": "__pieLabelRuleY2"
+                  }
+                ]
+              }
+            ]
+          },
+          "datasources": [
+            "ds-chart-877adfdc20fd"
+          ]
+        },
+        {
+          "tile_id": "chart-33d8ba9cfb2b",
+          "title": "Store-Wise Sales Performance",
+          "type": "chart",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {
+              "name": "values"
+            },
+            "title": "",
+            "usermeta": {
+              "snowflake": {
+                "chartConfig": {
+                  "dataLabels": {
+                    "enabled": true
+                  },
+                  "format": {
+                    "abbreviateNumbers": true
+                  },
+                  "dataPoints": {
+                    "enabled": true
+                  }
+                },
+                "chartType": "grouped-bar"
+              }
+            },
+            "layer": [
+              {
+                "mark": {
+                  "type": "bar",
+                  "invalid": null
+                },
+                "encoding": {
+                  "x": {
+                    "field": "STORE_ID",
+                    "type": "nominal"
+                  },
+                  "y": {
+                    "field": "TOTAL_SALES",
+                    "type": "quantitative",
+                    "aggregate": "sum",
+                    "axis": {
+                      "labelExpr": "abs(datum.value) >= 1000 ? format(datum.value, '.3~s') : format(datum.value, '')"
+                    },
+                    "stack": false
+                  },
+                  "tooltip": [
+                    {
+                      "field": "STORE_ID"
+                    },
+                    {
+                      "field": "TOTAL_SALES",
+                      "aggregate": "sum"
+                    }
+                  ],
+                  "xOffset": {}
+                }
+              },
+              {
+                "mark": {
+                  "type": "text",
+                  "dy": -8,
+                  "clip": false
+                },
+                "encoding": {
+                  "x": {
+                    "field": "STORE_ID",
+                    "type": "nominal"
+                  },
+                  "y": {
+                    "field": "TOTAL_SALES",
+                    "type": "quantitative",
+                    "aggregate": "sum",
+                    "axis": {
+                      "labelExpr": "abs(datum.value) >= 1000 ? format(datum.value, '.3~s') : format(datum.value, '')"
+                    }
+                  },
+                  "text": {
+                    "field": "TOTAL_SALES",
+                    "aggregate": "sum",
+                    "format": ".3~s"
+                  }
+                }
+              }
+            ]
+          },
+          "datasources": [
+            "ds-chart-33d8ba9cfb2b"
+          ]
+        },
+        {
+          "tile_id": "chart-8f08cef24885",
+          "title": "Inventory Value by Product Category",
+          "type": "chart",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {
+              "name": "values"
+            },
+            "title": "",
+            "usermeta": {
+              "snowflake": {
+                "chartConfig": {
+                  "dataLabels": {
+                    "enabled": true
+                  },
+                  "format": {
+                    "abbreviateNumbers": true
+                  }
+                },
+                "chartType": "grouped-bar"
+              }
+            },
+            "layer": [
+              {
+                "mark": {
+                  "type": "bar",
+                  "innerRadius": {
+                    "expr": "min(width, height) / 2 * 0.2"
+                  },
+                  "invalid": null
+                },
+                "encoding": {
+                  "x": {
+                    "field": "CATEGORY",
+                    "type": "nominal",
+                    "sort": null
+                  },
+                  "y": {
+                    "field": "INVENTORY_VALUE",
+                    "type": "quantitative",
+                    "axis": {
+                      "labelExpr": "abs(datum.value) >= 1000 ? format(datum.value, '.3~s') : format(datum.value, '')"
+                    },
+                    "stack": false
+                  },
+                  "tooltip": [
+                    {
+                      "field": "CATEGORY"
+                    },
+                    {
+                      "field": "INVENTORY_VALUE"
+                    }
+                  ],
+                  "xOffset": {}
+                }
+              },
+              {
+                "mark": {
+                  "type": "text",
+                  "dy": -8,
+                  "clip": false
+                },
+                "encoding": {
+                  "x": {
+                    "field": "CATEGORY",
+                    "type": "nominal",
+                    "sort": null
+                  },
+                  "y": {
+                    "field": "INVENTORY_VALUE",
+                    "type": "quantitative",
+                    "axis": {
+                      "labelExpr": "abs(datum.value) >= 1000 ? format(datum.value, '.3~s') : format(datum.value, '')"
+                    }
+                  },
+                  "text": {
+                    "field": "INVENTORY_VALUE",
+                    "format": ".3~s"
+                  }
+                }
+              }
+            ]
+          },
+          "datasources": [
+            "ds-chart-8f08cef24885"
+          ]
+        },
+        {
+          "tile_id": "chart-13b0818f54f3",
+          "title": "Total Estimated Sales",
+          "type": "chart",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 400,
+            "height": 200,
+            "padding": 0,
+            "params": [
+              {
+                "name": "__scorecard_reveal",
+                "value": 1
+              },
+              {
+                "name": "__scorecard_pulse",
+                "value": 0
+              }
+            ],
+            "data": {
+              "name": "values"
+            },
+            "transform": [
+              {
+                "calculate": "(isValid(datum['TOTAL_ESTIMATED_SALES']) && isNumber(datum['TOTAL_ESTIMATED_SALES'])) ? (abs(datum['TOTAL_ESTIMATED_SALES']) >= 1e9 ? format(datum['TOTAL_ESTIMATED_SALES'] / 1e9, '.0~f') + 'B' : abs(datum['TOTAL_ESTIMATED_SALES']) >= 1e6 ? format(datum['TOTAL_ESTIMATED_SALES'] / 1e6, '.0~f') + 'M' : abs(datum['TOTAL_ESTIMATED_SALES']) >= 1e3 ? format(datum['TOTAL_ESTIMATED_SALES'] / 1e3, '.0~f') + 'K' : format(datum['TOTAL_ESTIMATED_SALES'], ',.0~f')) : 'N/A'",
+                "as": "bigNumberText"
+              },
+              {
+                "calculate": "'neutral'",
+                "as": "__toneKey"
+              },
+              {
+                "calculate": "!(isValid(datum['TOTAL_ESTIMATED_SALES']) && isNumber(datum['TOTAL_ESTIMATED_SALES'])) ? '#5d6a85' : ('#1e252f')",
+                "as": "__numberColor"
+              },
+              {
+                "calculate": "'neutral'",
+                "as": "__chartKey"
+              },
+              {
+                "calculate": "'#3580f2'",
+                "as": "__lineColor"
+              },
+              {
+                "calculate": "'#3580f2'",
+                "as": "__chartColor"
+              }
+            ],
+            "layer": [
+              {
+                "transform": [
+                  {
+                    "window": [
+                      {
+                        "op": "row_number",
+                        "as": "__row"
+                      }
+                    ]
+                  },
+                  {
+                    "filter": "datum.__row == 1"
+                  }
+                ],
+                "mark": {
+                  "type": "text",
+                  "align": "center",
+                  "baseline": "middle",
+                  "fontWeight": "bold",
+                  "fontSize": {
+                    "expr": "width >= 140 ? 40 : (width >= 90 ? 24 : 14)"
+                  },
+                  "limit": {
+                    "expr": "width - 8"
+                  },
+                  "color": {
+                    "expr": "datum['__numberColor']"
+                  }
+                },
+                "encoding": {
+                  "x": {
+                    "value": {
+                      "expr": "width / 2"
+                    }
+                  },
+                  "y": {
+                    "value": {
+                      "expr": "(height + 28) / 2"
+                    }
+                  },
+                  "text": {
+                    "field": "bigNumberText"
+                  }
+                }
+              }
+            ],
+            "config": {
+              "view": {
+                "stroke": null
+              },
+              "mark": {
+                "tooltip": false
+              }
+            },
+            "usermeta": {
+              "snowflake": {
+                "chartConfig": {
+                  "dataLabels": {
+                    "enabled": false
+                  },
+                  "format": {
+                    "abbreviateNumbers": true
+                  }
+                },
+                "chartType": "scorecard",
+                "scorecardConfig": {
+                  "currentColumn": "TOTAL_ESTIMATED_SALES",
+                  "labelField": "",
+                  "format": "decimal",
+                  "deltaColorMode": "increasesBetter",
+                  "comparisonMode": "manual",
+                  "prevColumn": "",
+                  "seriesField": "",
+                  "seriesBucketField": "",
+                  "seriesValueField": ""
+                }
+              }
+            },
+            "title": ""
+          },
+          "datasources": [
+            "ds-chart-13b0818f54f3"
+          ]
+        },
+        {
+          "tile_id": "chart-84ead949f765",
+          "title": "Inventory Days of Supply",
+          "type": "chart",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 400,
+            "height": 200,
+            "padding": 0,
+            "params": [
+              {
+                "name": "__scorecard_reveal",
+                "value": 1
+              },
+              {
+                "name": "__scorecard_pulse",
+                "value": 0
+              }
+            ],
+            "data": {
+              "name": "values"
+            },
+            "transform": [
+              {
+                "calculate": "(isValid(datum['INVENTORY_DAYS_OF_SUPPLY']) && isNumber(datum['INVENTORY_DAYS_OF_SUPPLY'])) ? (abs(datum['INVENTORY_DAYS_OF_SUPPLY']) >= 1e9 ? format(datum['INVENTORY_DAYS_OF_SUPPLY'] / 1e9, '.0~f') + 'B' : abs(datum['INVENTORY_DAYS_OF_SUPPLY']) >= 1e6 ? format(datum['INVENTORY_DAYS_OF_SUPPLY'] / 1e6, '.0~f') + 'M' : abs(datum['INVENTORY_DAYS_OF_SUPPLY']) >= 1e3 ? format(datum['INVENTORY_DAYS_OF_SUPPLY'] / 1e3, '.0~f') + 'K' : format(datum['INVENTORY_DAYS_OF_SUPPLY'], ',.0~f')) : 'N/A'",
+                "as": "bigNumberText"
+              },
+              {
+                "calculate": "'neutral'",
+                "as": "__toneKey"
+              },
+              {
+                "calculate": "!(isValid(datum['INVENTORY_DAYS_OF_SUPPLY']) && isNumber(datum['INVENTORY_DAYS_OF_SUPPLY'])) ? '#5d6a85' : ('#1e252f')",
+                "as": "__numberColor"
+              },
+              {
+                "calculate": "'neutral'",
+                "as": "__chartKey"
+              },
+              {
+                "calculate": "'#3580f2'",
+                "as": "__lineColor"
+              },
+              {
+                "calculate": "'#3580f2'",
+                "as": "__chartColor"
+              }
+            ],
+            "layer": [
+              {
+                "transform": [
+                  {
+                    "window": [
+                      {
+                        "op": "row_number",
+                        "as": "__row"
+                      }
+                    ]
+                  },
+                  {
+                    "filter": "datum.__row == 1"
+                  }
+                ],
+                "mark": {
+                  "type": "text",
+                  "align": "center",
+                  "baseline": "middle",
+                  "fontWeight": "bold",
+                  "fontSize": {
+                    "expr": "width >= 140 ? 40 : (width >= 90 ? 24 : 14)"
+                  },
+                  "limit": {
+                    "expr": "width - 8"
+                  },
+                  "color": {
+                    "expr": "datum['__numberColor']"
+                  }
+                },
+                "encoding": {
+                  "x": {
+                    "value": {
+                      "expr": "width / 2"
+                    }
+                  },
+                  "y": {
+                    "value": {
+                      "expr": "(height + 28) / 2"
+                    }
+                  },
+                  "text": {
+                    "field": "bigNumberText"
+                  }
+                }
+              }
+            ],
+            "config": {
+              "view": {
+                "stroke": null
+              },
+              "mark": {
+                "tooltip": false
+              }
+            },
+            "usermeta": {
+              "snowflake": {
+                "chartConfig": {
+                  "dataLabels": {
+                    "enabled": false
+                  },
+                  "format": {
+                    "abbreviateNumbers": true
+                  }
+                },
+                "chartType": "scorecard",
+                "scorecardConfig": {
+                  "currentColumn": "INVENTORY_DAYS_OF_SUPPLY",
+                  "labelField": "",
+                  "format": "decimal",
+                  "deltaColorMode": "increasesBetter",
+                  "comparisonMode": "manual",
+                  "prevColumn": "",
+                  "seriesField": "",
+                  "seriesBucketField": "",
+                  "seriesValueField": ""
+                }
+              }
+            },
+            "title": ""
+          },
+          "datasources": [
+            "ds-chart-84ead949f765"
+          ]
+        },
+        {
+          "tile_id": "chart-13f449435b9b",
+          "title": "Available Stock Units",
+          "type": "chart",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 400,
+            "height": 200,
+            "padding": 0,
+            "params": [
+              {
+                "name": "__scorecard_reveal",
+                "value": 1
+              },
+              {
+                "name": "__scorecard_pulse",
+                "value": 0
+              }
+            ],
+            "data": {
+              "name": "values"
+            },
+            "transform": [
+              {
+                "calculate": "(isValid(datum['AVAILABLE_STOCK_UNITS']) && isNumber(datum['AVAILABLE_STOCK_UNITS'])) ? (abs(datum['AVAILABLE_STOCK_UNITS']) >= 1e9 ? format(datum['AVAILABLE_STOCK_UNITS'] / 1e9, '.0~f') + 'B' : abs(datum['AVAILABLE_STOCK_UNITS']) >= 1e6 ? format(datum['AVAILABLE_STOCK_UNITS'] / 1e6, '.0~f') + 'M' : abs(datum['AVAILABLE_STOCK_UNITS']) >= 1e3 ? format(datum['AVAILABLE_STOCK_UNITS'] / 1e3, '.0~f') + 'K' : format(datum['AVAILABLE_STOCK_UNITS'], ',.0~f')) : 'N/A'",
+                "as": "bigNumberText"
+              },
+              {
+                "calculate": "'neutral'",
+                "as": "__toneKey"
+              },
+              {
+                "calculate": "!(isValid(datum['AVAILABLE_STOCK_UNITS']) && isNumber(datum['AVAILABLE_STOCK_UNITS'])) ? '#5d6a85' : ('#1e252f')",
+                "as": "__numberColor"
+              },
+              {
+                "calculate": "'neutral'",
+                "as": "__chartKey"
+              },
+              {
+                "calculate": "'#3580f2'",
+                "as": "__lineColor"
+              },
+              {
+                "calculate": "'#3580f2'",
+                "as": "__chartColor"
+              }
+            ],
+            "layer": [
+              {
+                "transform": [
+                  {
+                    "window": [
+                      {
+                        "op": "row_number",
+                        "as": "__row"
+                      }
+                    ]
+                  },
+                  {
+                    "filter": "datum.__row == 1"
+                  }
+                ],
+                "mark": {
+                  "type": "text",
+                  "align": "center",
+                  "baseline": "middle",
+                  "fontWeight": "bold",
+                  "fontSize": {
+                    "expr": "width >= 140 ? 40 : (width >= 90 ? 24 : 14)"
+                  },
+                  "limit": {
+                    "expr": "width - 8"
+                  },
+                  "color": {
+                    "expr": "datum['__numberColor']"
+                  }
+                },
+                "encoding": {
+                  "x": {
+                    "value": {
+                      "expr": "width / 2"
+                    }
+                  },
+                  "y": {
+                    "value": {
+                      "expr": "(height + 28) / 2"
+                    }
+                  },
+                  "text": {
+                    "field": "bigNumberText"
+                  }
+                }
+              }
+            ],
+            "config": {
+              "view": {
+                "stroke": null
+              },
+              "mark": {
+                "tooltip": false
+              }
+            },
+            "usermeta": {
+              "snowflake": {
+                "chartConfig": {
+                  "dataLabels": {
+                    "enabled": false
+                  },
+                  "format": {
+                    "abbreviateNumbers": true
+                  }
+                },
+                "chartType": "scorecard",
+                "scorecardConfig": {
+                  "currentColumn": "AVAILABLE_STOCK_UNITS",
+                  "labelField": "",
+                  "format": "decimal",
+                  "deltaColorMode": "increasesBetter",
+                  "comparisonMode": "manual",
+                  "prevColumn": "",
+                  "seriesField": "",
+                  "seriesBucketField": "",
+                  "seriesValueField": ""
+                }
+              }
+            },
+            "title": ""
+          },
+          "datasources": [
+            "ds-chart-13f449435b9b"
+          ]
+        },
+        {
+          "tile_id": "chart-4c41d6f77777",
+          "title": "Average Daily Units Sold",
+          "type": "chart",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 400,
+            "height": 200,
+            "padding": 0,
+            "params": [
+              {
+                "name": "__scorecard_reveal",
+                "value": 1
+              },
+              {
+                "name": "__scorecard_pulse",
+                "value": 0
+              }
+            ],
+            "data": {
+              "name": "values"
+            },
+            "transform": [
+              {
+                "calculate": "(isValid(datum['AVG_DAILY_UNITS_SOLD']) && isNumber(datum['AVG_DAILY_UNITS_SOLD'])) ? (abs(datum['AVG_DAILY_UNITS_SOLD']) >= 1e9 ? format(datum['AVG_DAILY_UNITS_SOLD'] / 1e9, '.0~f') + 'B' : abs(datum['AVG_DAILY_UNITS_SOLD']) >= 1e6 ? format(datum['AVG_DAILY_UNITS_SOLD'] / 1e6, '.0~f') + 'M' : abs(datum['AVG_DAILY_UNITS_SOLD']) >= 1e3 ? format(datum['AVG_DAILY_UNITS_SOLD'] / 1e3, '.0~f') + 'K' : format(datum['AVG_DAILY_UNITS_SOLD'], ',.0~f')) : 'N/A'",
+                "as": "bigNumberText"
+              },
+              {
+                "calculate": "'neutral'",
+                "as": "__toneKey"
+              },
+              {
+                "calculate": "!(isValid(datum['AVG_DAILY_UNITS_SOLD']) && isNumber(datum['AVG_DAILY_UNITS_SOLD'])) ? '#5d6a85' : ('#1e252f')",
+                "as": "__numberColor"
+              },
+              {
+                "calculate": "'neutral'",
+                "as": "__chartKey"
+              },
+              {
+                "calculate": "'#3580f2'",
+                "as": "__lineColor"
+              },
+              {
+                "calculate": "'#3580f2'",
+                "as": "__chartColor"
+              }
+            ],
+            "layer": [
+              {
+                "transform": [
+                  {
+                    "window": [
+                      {
+                        "op": "row_number",
+                        "as": "__row"
+                      }
+                    ]
+                  },
+                  {
+                    "filter": "datum.__row == 1"
+                  }
+                ],
+                "mark": {
+                  "type": "text",
+                  "align": "center",
+                  "baseline": "middle",
+                  "fontWeight": "bold",
+                  "fontSize": {
+                    "expr": "width >= 140 ? 40 : (width >= 90 ? 24 : 14)"
+                  },
+                  "limit": {
+                    "expr": "width - 8"
+                  },
+                  "color": {
+                    "expr": "datum['__numberColor']"
+                  }
+                },
+                "encoding": {
+                  "x": {
+                    "value": {
+                      "expr": "width / 2"
+                    }
+                  },
+                  "y": {
+                    "value": {
+                      "expr": "(height + 28) / 2"
+                    }
+                  },
+                  "text": {
+                    "field": "bigNumberText"
+                  }
+                }
+              }
+            ],
+            "config": {
+              "view": {
+                "stroke": null
+              },
+              "mark": {
+                "tooltip": false
+              }
+            },
+            "usermeta": {
+              "snowflake": {
+                "chartConfig": {
+                  "dataLabels": {
+                    "enabled": false
+                  },
+                  "format": {
+                    "abbreviateNumbers": true
+                  }
+                },
+                "chartType": "scorecard",
+                "scorecardConfig": {
+                  "currentColumn": "AVG_DAILY_UNITS_SOLD",
+                  "labelField": "",
+                  "format": "decimal",
+                  "deltaColorMode": "increasesBetter",
+                  "comparisonMode": "manual",
+                  "prevColumn": "",
+                  "seriesField": "",
+                  "seriesBucketField": "",
+                  "seriesValueField": "",
+                  "labelEnabled": false
+                }
+              }
+            },
+            "title": ""
+          },
+          "datasources": [
+            "ds-chart-4c41d6f77777"
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": {
+    "tab-0": {
+      "meta": {
+        "default": true
+      },
+      "positions": {
+        "chart-f71ef1db43a4": {
+          "x": 0,
+          "y": 2,
+          "w": 6,
+          "h": 3
+        },
+        "chart-544f026ba64c": {
+          "x": 6,
+          "y": 2,
+          "w": 6,
+          "h": 3
+        },
+        "chart-877adfdc20fd": {
+          "x": 0,
+          "y": 5,
+          "w": 6,
+          "h": 3
+        },
+        "chart-33d8ba9cfb2b": {
+          "x": 6,
+          "y": 5,
+          "w": 6,
+          "h": 3
+        },
+        "chart-8f08cef24885": {
+          "x": 0,
+          "y": 8,
+          "w": 12,
+          "h": 4
+        },
+        "chart-13b0818f54f3": {
+          "x": 0,
+          "y": 0,
+          "w": 3,
+          "h": 2
+        },
+        "chart-84ead949f765": {
+          "x": 3,
+          "y": 0,
+          "w": 3,
+          "h": 2
+        },
+        "chart-13f449435b9b": {
+          "x": 6,
+          "y": 0,
+          "w": 3,
+          "h": 2
+        },
+        "chart-4c41d6f77777": {
+          "x": 9,
+          "y": 0,
+          "w": 3,
+          "h": 2
+        }
+      }
+    }
+  },
+  "datasources": {
+    "ds-chart-f71ef1db43a4": {
+      "type": "sql",
+      "columns": [
+        {
+          "name": "SALES_MONTH",
+          "type": "DATE"
+        },
+        {
+          "name": "MONTHLY_SALES",
+          "type": "NUMBER"
+        }
+      ],
+      "sql": "\nSELECT\n    DATE_TRUNC('MONTH', DATE) AS SALES_MONTH,\n    ROUND(SUM(ESTIMATED_NET_SALES), 2)\n        AS MONTHLY_SALES\nFROM RETAIL_DB.ANALYTICS.DAILY_SALES\nGROUP BY 1\nHAVING COUNT(DISTINCT DATE) =\n       DAY(LAST_DAY(DATE_TRUNC('MONTH', DATE)))\nORDER BY 1;\n\n",
+      "filter_bindings": []
+    },
+    "ds-chart-544f026ba64c": {
+      "type": "sql",
+      "columns": [
+        {
+          "name": "PRODUCT_ID",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "TOTAL_UNITS_SOLD",
+          "type": "NUMBER"
+        }
+      ],
+      "sql": "\nSELECT\n    PRODUCT_ID,\n    TOTAL_UNITS_SOLD\nFROM RETAIL_DB.ANALYTICS.PRODUCT_PERFORMANCE\nORDER BY TOTAL_UNITS_SOLD DESC\nLIMIT 10;\n",
+      "filter_bindings": []
+    },
+    "ds-chart-877adfdc20fd": {
+      "type": "sql",
+      "columns": [
+        {
+          "name": "STOCK_STATUS",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "TOTAL_PRODUCTS",
+          "type": "NUMBER"
+        }
+      ],
+      "sql": "\nSELECT\n    STOCK_STATUS,\n    COUNT(*) AS TOTAL_PRODUCTS\nFROM RETAIL_DB.ANALYTICS.LATEST_INVENTORY\nGROUP BY STOCK_STATUS\nORDER BY TOTAL_PRODUCTS DESC;\n",
+      "filter_bindings": []
+    },
+    "ds-chart-33d8ba9cfb2b": {
+      "type": "sql",
+      "columns": [
+        {
+          "name": "STORE_ID",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "TOTAL_SALES",
+          "type": "NUMBER"
+        }
+      ],
+      "sql": "\nSELECT\n    STORE_ID,\n    ROUND(SUM(ESTIMATED_NET_SALES), 2)\n        AS TOTAL_SALES\nFROM RETAIL_DB.ANALYTICS.DAILY_SALES\nGROUP BY STORE_ID\nORDER BY TOTAL_SALES DESC;\n",
+      "filter_bindings": []
+    },
+    "ds-chart-8f08cef24885": {
+      "type": "sql",
+      "columns": [
+        {
+          "name": "CATEGORY",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "INVENTORY_VALUE",
+          "type": "NUMBER"
+        }
+      ],
+      "sql": "\nSELECT\n    CATEGORY,\n    ROUND(\n        SUM(ESTIMATED_INVENTORY_VALUE), 2\n    ) AS INVENTORY_VALUE\nFROM RETAIL_DB.ANALYTICS.LATEST_INVENTORY\nGROUP BY CATEGORY\nORDER BY INVENTORY_VALUE DESC;\n",
+      "filter_bindings": []
+    },
+    "ds-chart-13b0818f54f3": {
+      "type": "sql",
+      "columns": [
+        {
+          "name": "TOTAL_ESTIMATED_SALES",
+          "type": "NUMBER"
+        }
+      ],
+      "sql": "\nSELECT\n    ROUND(SUM(ESTIMATED_NET_SALES), 2)\n        AS TOTAL_ESTIMATED_SALES\nFROM RETAIL_DB.ANALYTICS.DAILY_SALES;\n",
+      "filter_bindings": []
+    },
+    "ds-chart-84ead949f765": {
+      "type": "sql",
+      "columns": [
+        {
+          "name": "INVENTORY_DAYS_OF_SUPPLY",
+          "type": "NUMBER"
+        }
+      ],
+      "sql": "\nWITH SNAPSHOT AS (\n    SELECT\n        MAX(DATE) AS SNAPSHOT_DATE,\n        SUM(INVENTORY_LEVEL) AS STOCK_UNITS\n    FROM RETAIL_DB.ANALYTICS.LATEST_INVENTORY\n),\n\nSALES_30_DAYS AS (\n    SELECT\n        SUM(C.UNITS_SOLD) / 30.0 AS AVG_DAILY_SALES\n    FROM RETAIL_DB.CLEAN.RETAIL_INVENTORY_CLEAN C\n    CROSS JOIN SNAPSHOT S\n    WHERE C.DATE > DATEADD(DAY, -30, S.SNAPSHOT_DATE)\n      AND C.DATE <= S.SNAPSHOT_DATE\n)\n\nSELECT\n    ROUND(\n        S.STOCK_UNITS /\n        NULLIF(A.AVG_DAILY_SALES, 0),\n        1\n    ) AS INVENTORY_DAYS_OF_SUPPLY\nFROM SNAPSHOT S\nCROSS JOIN SALES_30_DAYS A;\n",
+      "filter_bindings": []
+    },
+    "ds-chart-13f449435b9b": {
+      "type": "sql",
+      "columns": [
+        {
+          "name": "AVAILABLE_STOCK_UNITS",
+          "type": "NUMBER"
+        }
+      ],
+      "sql": "\nSELECT\n    SUM(INVENTORY_LEVEL) AS AVAILABLE_STOCK_UNITS\nFROM RETAIL_DB.ANALYTICS.LATEST_INVENTORY;\n",
+      "filter_bindings": []
+    },
+    "ds-chart-4c41d6f77777": {
+      "type": "sql",
+      "columns": [
+        {
+          "name": "AVG_DAILY_UNITS_SOLD",
+          "type": "NUMBER"
+        }
+      ],
+      "sql": "\nSELECT\n    ROUND(\n        SUM(UNITS_SOLD) /\n        NULLIF(COUNT(DISTINCT DATE), 0),\n        0\n    ) AS AVG_DAILY_UNITS_SOLD\nFROM RETAIL_DB.CLEAN.RETAIL_INVENTORY_CLEAN;\n",
+      "filter_bindings": []
+    }
+  }
+}
